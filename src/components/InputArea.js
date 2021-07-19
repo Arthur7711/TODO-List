@@ -7,7 +7,10 @@ export default function InputArea() {
   const handleInputChange = (e) => {
     setInpValue(e.target.value);
   };
-  const addItem = () => setState([...state, { text: inpValue }]);
+  const addItem = () => {
+    localStorage.setItem("items", inpValue);
+    setState([...state, { text: localStorage.getItem("items")}]);
+  };
   const deleteAll = () => setState([]);
   return (
     <div>
