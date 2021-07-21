@@ -1,24 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function InputArea() {
-  const [inpValue, setInpValue] = useState("");
-  const [state, setState] = useState([]);
+  const [inpVal, setInpVal] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const handleInput = (e) => {
+    setInpVal(e.target.value);
+    console.log(e.target.value);
+  };
 
-  const handleInputChange = (e) => {
-    setInpValue(e.target.value);
+  const handleAddTodo = () => {
+    setTasks([...tasks, inpVal]);
+    setInpVal("");
   };
-  const addItem = () => {
-    localStorage.setItem("items", inpValue);
-    setState([...state, { text: localStorage.getItem("items")}]);
+
+  const handleDeleteAll = () => {
+    setTasks([]);
   };
-  const deleteAll = () => setState([]);
   return (
     <div>
-      <input type="text" onChange={handleInputChange} />
-      <button onClick={addItem}>add</button>
-      <button onClick={deleteAll}>delete all</button>
-      {state.map((s, index) => (
-        <p key={s.text.toString() + index}>{s.text}</p>
+      <input
+        className="border-2"
+        type="text"
+        value={inpVal}
+        onChange={handleInput}
+      />
+      <button className="border-2 " onClick={handleAddTodo}>
+        add
+      </button>
+      <button className="border-2" onClick={handleDeleteAll}>
+        delete all
+      </button>
+      {tasks.map((s) => (
+        <p key={s.toString() + Math.random() * 1000}>{s}</p>
       ))}
     </div>
   );
