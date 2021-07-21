@@ -1,20 +1,49 @@
 import React, { useEffect, useState } from "react";
+import Cart from "./subComponents/cart";
 
 export default function InputArea() {
   const [inpVal, setInpVal] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [todo, setTodo] = useState(<div></div>);
+
   const handleInput = (e) => {
     setInpVal(e.target.value);
     console.log(e.target.value);
   };
 
   const handleAddTodo = () => {
-    setTasks([...tasks, inpVal]);
+    setTasks([...tasks, { value: inpVal, isSuccess: false }]);
     setInpVal("");
   };
+  useEffect(() => {
+    setTodo(
+      tasks.map((item) => (
+        <Cart
+          handleDeleted={handleDeleted}
+          handleCompleted={handleCompleted}
+          isSuccess={item.isSuccess}
+          value={item.value}
+        />
+      ))
+    );
+  }, [tasks]);
 
   const handleDeleteAll = () => {
     setTasks([]);
+  };
+  const handleCompleted = (data) => {
+    console.log("data", data);
+    setTasks(
+      tasks.map((t) => {
+        if (t.value === data) {
+          return { value: t.value, isSuccess: true };
+        }
+        return t;
+      })
+    );
+  };
+  const handleDeleted = (data) => {
+    setTasks(tasks.filter((t) => t.value !== data));
   };
   return (
     <div>
@@ -30,9 +59,7 @@ export default function InputArea() {
       <button className="border-2" onClick={handleDeleteAll}>
         delete all
       </button>
-      {tasks.map((s) => (
-        <p key={s.toString() + Math.random() * 1000}>{s}</p>
-      ))}
+      {todo}
     </div>
   );
 }
