@@ -19,6 +19,7 @@ export default function InputArea() {
     setTodo(
       tasks.map((item) => (
         <Cart
+          key={JSON.stringify(item)}
           handleDeleted={handleDeleted}
           handleCompleted={handleCompleted}
           isSuccess={item.isSuccess}
