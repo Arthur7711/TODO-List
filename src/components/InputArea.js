@@ -16,6 +16,20 @@ export default function InputArea() {
     setInpVal("");
   };
   useEffect(() => {
+    const handleCompleted = (data) => {
+      console.log("data", data);
+      setTasks(
+        tasks.map((t) => {
+          if (t.value === data) {
+            return { value: t.value, isSuccess: true };
+          }
+          return t;
+        })
+      );
+    };
+    const handleDeleted = (data) => {
+      setTasks(tasks.filter((t) => t.value !== data));
+    };
     setTodo(
       tasks.map((item) => (
         <Cart
@@ -32,20 +46,7 @@ export default function InputArea() {
   const handleDeleteAll = () => {
     setTasks([]);
   };
-  const handleCompleted = (data) => {
-    console.log("data", data);
-    setTasks(
-      tasks.map((t) => {
-        if (t.value === data) {
-          return { value: t.value, isSuccess: true };
-        }
-        return t;
-      })
-    );
-  };
-  const handleDeleted = (data) => {
-    setTasks(tasks.filter((t) => t.value !== data));
-  };
+  
   return (
     <div>
       <input
